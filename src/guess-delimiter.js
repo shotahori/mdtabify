@@ -14,18 +14,24 @@ const collectCandidates = (text) => {
 
 const scoreDelimiter = (char, lines) => {
   const freq = {};
+  let effectiveLineCount = 0;
 
   for (const line of lines) {
+    if (line.trim() === "") continue;
+
     const count = line.split(char).length;
     freq[count] = (freq[count] || 0) + 1;
+    effectiveLineCount++;
   }
+
+  if (effectiveLineCount === 0) return 0;
 
   let modeFreq = 0;
   for (const k in freq) {
     modeFreq = Math.max(freq[k], modeFreq);
   }
 
-  return modeFreq / lines.length;
+  return modeFreq / effectiveLineCount;
 };
 
 export const guessDelimiter = (text) => {
