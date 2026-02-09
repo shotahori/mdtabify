@@ -26,12 +26,17 @@ const scoreDelimiter = (char, lines) => {
 
   if (effectiveLineCount === 0) return 0;
 
-  let modeFreq = 0;
+  const maxFreq = Math.max(...Object.values(freq));
+
+  const maxColumns = [];
   for (const k in freq) {
-    modeFreq = Math.max(freq[k], modeFreq);
+    if (freq[k] === maxFreq) {
+      maxColumns.push(Number(k));
+    }
   }
 
-  return modeFreq / effectiveLineCount;
+  if (maxColumns.length === 1 && maxColumns[0] === 1) return 0;
+  return maxFreq / effectiveLineCount;
 };
 
 export const guessDelimiter = (text) => {

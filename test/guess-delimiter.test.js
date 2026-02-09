@@ -32,3 +32,13 @@ test("ignores whitespace-only lines when computing column consistency", () => {
 
   assert.equal(guessDelimiter(text), ",");
 });
+
+test("excludes any delimiter whose mode is 1 when computing column consistency", () => {
+  const text = dedent(`
+    a,b,c
+    d,e,f
+    g,h
+  `);
+
+  assert.equal(guessDelimiter(text), ",");
+});
