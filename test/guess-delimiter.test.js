@@ -13,6 +13,16 @@ test("guesses delimiter used in a given text", () => {
   assert.equal(guessDelimiter(text), ",");
 });
 
+test("returns null when there is no delimiter", () => {
+  const text = dedent(`
+    abc
+    def
+    ghi
+  `);
+
+  assert.equal(guessDelimiter(text), null);
+});
+
 test("ignores empty lines when computing column consistency", () => {
   const text = dedent(`
     a,b,c
