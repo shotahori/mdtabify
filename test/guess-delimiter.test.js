@@ -52,3 +52,16 @@ test("excludes any delimiter whose mode is 1 when computing column consistency",
 
   assert.deepEqual(guessDelimiter(text), { kind: "unique", delimiter: "," });
 });
+
+test("returns multiple candidates when the delimiter is ambiguous", () => {
+  const text = dedent(`
+    a,b;c
+    d,e;f
+    g,h;i
+  `);
+
+  assert.deepEqual(guessDelimiter(text), {
+    kind: "ambiguous",
+    delimiters: [",", ";"],
+  });
+});

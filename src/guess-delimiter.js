@@ -44,18 +44,24 @@ export const guessDelimiter = (text) => {
 
   const lines = text.split(/\r?\n/);
 
-  let delimiter = null;
+  let delimiters = [];
   let bestScore = 0;
 
   for (const char of candidates) {
     const score = scoreDelimiter(char, lines);
 
+    if (score === 0) continue;
+
     if (score > bestScore) {
       bestScore = score;
-      delimiter = char;
+      delimiters = [char];
+    } else if (score === bestScore) {
+      delimiters.push(char);
     }
   }
 
-  if (!delimiter) return { kind: "none" };
-  return { kind: "unique", delimiter };
+  if (delimiters.length === 0) return { kind: "none" };
+  if (delimiters.length === 1)
+    return { kind: "unique", delimiter: delimiters[0] };
+  return { kind: "ambiguous", delimiters };
 };
