@@ -10,7 +10,7 @@ test("guesses delimiter used in a given text", () => {
     g,h,i
   `);
 
-  assert.equal(guessDelimiter(text), ",");
+  assert.deepEqual(guessDelimiter(text), { kind: "unique", delimiter: "," });
 });
 
 test("returns null when there is no delimiter", () => {
@@ -20,7 +20,7 @@ test("returns null when there is no delimiter", () => {
     ghi
   `);
 
-  assert.equal(guessDelimiter(text), null);
+  assert.deepEqual(guessDelimiter(text), { kind: "none" });
 });
 
 test("ignores empty lines when computing column consistency", () => {
@@ -30,7 +30,7 @@ test("ignores empty lines when computing column consistency", () => {
     d,e,f
   `);
 
-  assert.equal(guessDelimiter(text), ",");
+  assert.deepEqual(guessDelimiter(text), { kind: "unique", delimiter: "," });
 });
 
 test("ignores whitespace-only lines when computing column consistency", () => {
@@ -40,7 +40,7 @@ test("ignores whitespace-only lines when computing column consistency", () => {
     d,e,f
   `);
 
-  assert.equal(guessDelimiter(text), ",");
+  assert.deepEqual(guessDelimiter(text), { kind: "unique", delimiter: "," });
 });
 
 test("excludes any delimiter whose mode is 1 when computing column consistency", () => {
@@ -50,5 +50,5 @@ test("excludes any delimiter whose mode is 1 when computing column consistency",
     g,h
   `);
 
-  assert.equal(guessDelimiter(text), ",");
+  assert.deepEqual(guessDelimiter(text), { kind: "unique", delimiter: "," });
 });

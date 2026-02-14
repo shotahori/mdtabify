@@ -56,5 +56,6 @@ export const guessDelimiter = (text) => {
     }
   }
 
-  return delimiter;
+  if (!delimiter) return { kind: "none" };
+  return { kind: "unique", delimiter };
 };
