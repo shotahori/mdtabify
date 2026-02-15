@@ -11,7 +11,23 @@ process.stdin.on("data", (chunk) => {
 });
 
 process.stdin.on("end", () => {
-  const { table } = mdtabify(input);
+  const result = mdtabify(input);
 
-  console.log(table);
+  switch (result.kind) {
+    case "none":
+      console.error(
+        "Could not determine a delimiter: only one column detected.",
+      );
+      process.exitCode = 1;
+      return;
+    case "ambiguous":
+      console.error(
+        `Ambiguous delimiter: candidates are ${result.delimiters.join(" ")}`,
+      );
+      process.exitCode = 1;
+      return;
+    case "unique":
+      console.log(result.table);
+      return;
+  }
 });
