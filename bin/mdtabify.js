@@ -11,5 +11,7 @@ process.stdin.on("data", (chunk) => {
 });
 
 process.stdin.on("end", () => {
-  console.log(mdtabify(input));
+  const { table } = mdtabify(input);
+
+  console.log(table);
 });
