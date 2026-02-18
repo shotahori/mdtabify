@@ -19,3 +19,15 @@ test("converts delimited text to a Markdown table", () => {
 
   assert.equal(toMdTable(text, ","), expected);
 });
+
+test("fills missing cells with empty strings", () => {
+  const text = dedent(`
+    a,b
+    d,e,f
+    g,h,i
+  `);
+
+  const result = toMdTable(text, ",");
+
+  assert.ok(result.includes("| a | b |  |"));
+});
