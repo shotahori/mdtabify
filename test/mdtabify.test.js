@@ -58,3 +58,21 @@ test("fails and prints candidates when the delimiter is ambiguous", () => {
   assert.equal(result.stdout, "");
   assert.ok(result.stderr.includes("Ambiguous delimiter: candidates are , ;"));
 });
+
+test("writes aligned markdown table to stdout when --align is provided", () => {
+  const text = dedent(`
+    a,bb,ccc
+    d,eeee,f
+    gg,h,i
+  `);
+
+  const result = spawnSync(process.execPath, ["bin/mdtabify.js", "--align"], {
+    input: text,
+    encoding: "utf8",
+  });
+
+  assert.equal(result.status, 0);
+  assert.ok(result.stdout.includes("| a  | bb   | ccc |"));
+  assert.ok(result.stdout.includes("|----|------|-----|"));
+  assert.equal(result.stderr, "");
+});

@@ -2,6 +2,11 @@
 
 import { mdtabify } from "../src/mdtabify.js";
 
+const args = process.argv.slice(2);
+const options = {
+  align: args.includes("--align"),
+};
+
 process.stdin.setEncoding("utf8");
 
 let input = "";
@@ -11,7 +16,7 @@ process.stdin.on("data", (chunk) => {
 });
 
 process.stdin.on("end", () => {
-  const result = mdtabify(input);
+  const result = mdtabify(input, options);
 
   switch (result.kind) {
     case "none":

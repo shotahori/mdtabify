@@ -1,7 +1,7 @@
 import { guessDelimiter } from "./guess-delimiter.js";
 import { toMdTable } from "./to-md-table.js";
 
-export const mdtabify = (text) => {
+export const mdtabify = (text, options) => {
   const guess = guessDelimiter(text);
 
   switch (guess.kind) {
@@ -13,7 +13,7 @@ export const mdtabify = (text) => {
       return {
         kind: "unique",
         delimiter: guess.delimiter,
-        table: toMdTable(text, guess.delimiter),
+        table: toMdTable(text, guess.delimiter, options),
       };
   }
 };
