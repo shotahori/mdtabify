@@ -35,3 +35,15 @@ test("fills missing cells with empty strings", () => {
 test("returns empty string for whitespace-only input", () => {
   assert.equal(toMdTable(" \t\n ", ","), "");
 });
+
+test("escapes pipes inside table cells", () => {
+  const text = dedent(`
+    a,b,c
+    d|x,e,f
+    g,h,i
+  `);
+
+  const result = toMdTable(text, ",");
+
+  assert.ok(result.includes("| d\\|x | e | f |"));
+});

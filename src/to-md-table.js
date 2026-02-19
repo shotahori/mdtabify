@@ -9,9 +9,11 @@ const parseRows = (text, delimiter) => {
   return trimmed.split(/\r?\n/).map((line) => line.split(delimiter));
 };
 
+const formatCell = (cell) => (cell ?? "").replace(/\|/g, "\\|");
+
 const normalizeRows = (rows, columnCount) =>
   rows.map((row) =>
-    Array.from({ length: columnCount }, (_, i) => row[i] ?? ""),
+    Array.from({ length: columnCount }, (_, i) => formatCell(row[i])),
   );
 
 const toMdLine = (row) => `| ${row.join(" | ")} |`;
