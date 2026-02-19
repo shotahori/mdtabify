@@ -20,6 +20,23 @@ test("converts delimited text to a Markdown table", () => {
   assert.equal(toMdTable(text, ","), expected);
 });
 
+test("aligns markdown table columns when align option is true", () => {
+  const text = dedent(`
+    a,bb,ccc
+    d,eeee,f
+    gg,h,i
+  `);
+
+  const expected = dedent(`
+    | a  | bb   | ccc |
+    |----|------|-----|
+    | d  | eeee | f   |
+    | gg | h    | i   |
+  `);
+
+  assert.equal(toMdTable(text, ",", { align: true }), expected);
+});
+
 test("fills missing cells with empty strings", () => {
   const text = dedent(`
     a,b

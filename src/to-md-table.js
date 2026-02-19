@@ -16,23 +16,44 @@ const normalizeRows = (rows, columnCount) =>
     Array.from({ length: columnCount }, (_, i) => formatCell(row[i])),
   );
 
-const toMdLine = (row) => `| ${row.join(" | ")} |`;
+const computeColumnWidths = (rows) => {
+  const widths = Array.from({ length: rows[0].length }, () => 0);
 
-const toMdSeparatorLine = (columnCount) =>
-  `|${Array.from({ length: columnCount }, () => "-".repeat(MIN_COLUMN_WIDTH)).join("|")}|`;
+  for (const row of rows) {
+    for (let i = 0; i < row.length; i++) {
+      widths[i] = Math.max(widths[i], row[i].length);
+    }
+  }
 
-export const toMdTable = (text, delimiter) => {
-  const rows = parseRows(text, delimiter);
+  return widths;
+};
+
+const toMdLine = (row, widths) =>
+  widths
+    ? `| ${row.map((cell, i) => cell.padEnd(widths[i])).join(" | ")} |`
+    : `| ${row.join(" | ")} |`;
+
+const toMdSeparatorLine = (columnCount, widths) =>
+  widths
+    ? `|${widths.map((w) => "-".repeat(w + 2)).join("|")}|`
+    : `|${Array.from({ length: columnCount }, () => "-".repeat(MIN_COLUMN_WIDTH)).join("|")}|`;
+
+export const toMdTable = (text, delimiter, { align = false } = {}) => {
+  let rows = parseRows(text, delimiter);
 
   if (rows.length === 0) return "";
 
   const columnCount = Math.max(...rows.map((row) => row.length));
 
-  const [headerRow, ...bodyRows] = normalizeRows(rows, columnCount);
+  rows = normalizeRows(rows, columnCount);
+
+  const widths = align ? computeColumnWidths(rows) : null;
+
+  const [headerRow, ...bodyRows] = rows;
 
   return [
-    toMdLine(headerRow),
-    toMdSeparatorLine(columnCount),
-    ...bodyRows.map((row) => toMdLine(row)),
+    toMdLine(headerRow, widths),
+    toMdSeparatorLine(columnCount, widths),
+    ...bodyRows.map((row) => toMdLine(row, widths)),
   ].join("\n");
 };
