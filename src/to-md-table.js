@@ -1,6 +1,8 @@
 const MIN_COLUMN_WIDTH = 3;
 
 const parseRows = (text, delimiter) => {
+  if (text.trim() === "") return [];
+
   const outerBlankLines = /^(?:[ \t]*\r?\n)+|(?:\r?\n[ \t]*)+$/g;
   const trimmed = text.replace(outerBlankLines, "");
 

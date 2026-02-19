@@ -31,3 +31,7 @@ test("fills missing cells with empty strings", () => {
 
   assert.ok(result.includes("| a | b |  |"));
 });
+
+test("returns empty string for whitespace-only input", () => {
+  assert.equal(toMdTable(" \t\n ", ","), "");
+});
