@@ -76,3 +76,23 @@ test("writes aligned markdown table to stdout when --align is provided", () => {
   assert.ok(result.stdout.includes("|----|------|-----|"));
   assert.equal(result.stderr, "");
 });
+
+test("writes help to stdout when --help is provided", () => {
+  const expected = dedent(`
+    Usage: mdtabify [--align] [--help]
+
+    Convert delimiter-separated text from stdin into a Markdown table.
+
+    Options:
+      --align   Align columns for readable output
+      --help    Show this help message
+  `);
+
+  const result = spawnSync(process.execPath, ["bin/mdtabify.js", "--help"], {
+    encoding: "utf8",
+  });
+
+  assert.equal(result.status, 0);
+  assert.equal(result.stdout.trim(), expected);
+  assert.equal(result.stderr, "");
+});
