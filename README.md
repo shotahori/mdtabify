@@ -47,6 +47,19 @@ $ echo -e "a,bb,ccc\nd,eeee,f\ngg,h,i" | mdtabify --align
 | gg | h    | i   |
 ```
 
+## Delimiter detection (how it works)
+
+`mdtabify` treats **newline (`\n` / `\r\n`) as the row separator**.
+The delimiter is guessed by choosing a character that makes the **number of columns consistent across rows**
+(i.e. the most frequent column count across non-empty lines).
+
+Notes:
+
+- Provide **multiple lines**. With only one line, many characters look “consistent” and the result may be ambiguous.
+- If the most frequent column count is `1`, it is treated as **no delimiter**.
+- Values are split by a single-character delimiter (simple split-based parsing), so multi-character delimiters like `", "` or `"||"` are not supported.
+- No CSV-style quoting/escaping is supported.
+
 ## Error behavior
 
 ### 1) When the delimiter cannot be determined (effectively only one column)
