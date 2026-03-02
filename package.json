@@ -1,6 +1,6 @@
 {
   "name": "mdtabify",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Convert delimiter-separated text from stdin into a Markdown table with automatic delimiter detection.",
   "keywords": [
     "markdown",
