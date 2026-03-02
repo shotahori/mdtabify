@@ -85,3 +85,8 @@ g,h;i
 - Outputs candidate delimiters to standard error (`stderr`)
 - Exit code: `1`
 - Message: `Ambiguous delimiter: candidates are , ;`
+
+## Future work
+
+- Improve delimiter detection accuracy: avoid character-specific heuristics (e.g., preferring `,` over `;`), and extend the current column-count consistency approach with additional structure-first signals.
+- Add CSV-style quoting/escaping support.
